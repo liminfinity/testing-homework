@@ -27,9 +27,7 @@ describe('Корзина', () => {
             jest.spyOn(CartApi.prototype, 'getState').mockReturnValue(cart);
         })
         it('Отображается таблица с добавленными в корзину товарами', async () => {
-            
             const {container} = renderApp(<Cart/>)
-    
             const cartBody = await waitFor(() => container.querySelectorAll('tbody tr'));
             expect(cartBody).toHaveLength(cartLength);
         })

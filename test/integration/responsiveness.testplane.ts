@@ -23,16 +23,17 @@ describe('Адаптивность', () => {
 
         expect(isMenuDisplayed.value).toEqual('block');
     })
-    
+    //! Возникает bug_id=4
     it('При выборе элемента из меню "гамбургера", меню закрывается', async ({browser}) => {
-        await browser.url('/hw/store');
+        await browser.url('/hw/store/delivery');
         await browser.setWindowSize(575, 713);
 
         const toggler = await browser.$('.Application-Toggler.navbar-toggler');
         await toggler.click();
-        const deliveryLink = await browser.$('[href="/hw/store/delivery"]');
-        await deliveryLink.click();
-        const menu = await browser.$('.Application-Menu.collapse');
+        const contactsLink = await browser.$('[href="/hw/store/contacts"]');
+        await contactsLink.click();
+        
+        const menu = await browser.$('.Application-Menu.navbar-collapse');
         const isMenuDisplayed = await menu.getCSSProperty('display');
 
         expect(isMenuDisplayed.value).toEqual('none');

@@ -1,4 +1,5 @@
 describe('Корзина', () => {
+    //! Возникает bug_id=6
     it('Содержимое корзины сохраняется между перезагрузками страницы', async ({browser}) => {
         await browser.url('/hw/store/catalog/0');
         const addToCartBtn = await browser.$('.ProductDetails-AddToCart');
