@@ -4,14 +4,16 @@ import { join } from 'path';
 import { CheckoutResponse } from '../common/types';
 import { ExampleStore } from './data';
 
-export function getBugId(req: express.Request) {
-    return Number(req.query.bug_id) || Number(process.env.BUG_ID) || 0;
+let bug_id: number;
+export function setBugId(req: express.Request) {
+    bug_id = Number(req.query.bug_id) || Number(process.env.BUG_ID) || 0;
 }
 
 const indexHtmlContent = readFileSync(join(__dirname, '..', '..', "dist", "index.html")).toString();
 
 const indexHtml = (req: express.Request, res: express.Response) => {
-    res.send(indexHtmlContent.replace('</head>', `<script>var process={env:{BUG_ID:'${getBugId(req)}'}}</script></head>`) );
+    setBugId(req);
+    res.send(indexHtmlContent.replace('</head>', `<script>var process={env:{BUG_ID:'${bug_id}'}}</script></head>`) );
 };
 
 const store = new ExampleStore();
@@ -26,16 +28,13 @@ router.get('/contacts', indexHtml);
 router.get('/cart', indexHtml);
 
 router.get('/api/products', (req, res) => {
-    const products = store.getAllProducts(getBugId(req));
+    const products = store.getAllProducts(bug_id);
     res.json(products);
 });
 
 router.get('/api/products/:id(\\d+)', (req, res) => {
-    const bugId = getBugId(req);
-
     let id = Number(req.params.id);
-
-    if(bugId === 3) {
+    if(bug_id === 3) {
         id = 0;
     }
 
@@ -44,9 +43,7 @@ router.get('/api/products/:id(\\d+)', (req, res) => {
 });
 
 router.post('/api/checkout', (req, res) => {
-    const bugId = getBugId(req);
-
-    if (bugId === 2) {
+    if (bug_id === 2) {
         res.json({ id: Date.now() });
     } else {
         const id = store.createOrder(req.body);

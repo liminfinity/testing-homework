@@ -1,4 +1,5 @@
 describe('Товар', () => {
+    //! Возникает bug_id=7
     it('При добавлении товара в корзину, увеличивается индикатор количества товаров рядом со ссылкой на корзину', async ({browser}) => {
         await browser.url('/hw/store/catalog/0');
         const addToCartBtn = await browser.$('.ProductDetails-AddToCart');
@@ -42,6 +43,17 @@ describe('Товар', () => {
 
         expect(productCntText).toEqual('2')
         expect(productTotalText).toEqual('$' + +productPriceText * 2)
+
+    })
+
+    //! Данный тест проверяет bug_id = 3, но не является описанием продуктового сценария. Для правильного написания теста без привязки к bug_id нужно писать unit тест для сервера
+    it('Сервер возвращает товар', async ({browser}) => {
+        await browser.url('/hw/store/catalog/2');
+
+        const product = await browser.$('.ProductDetails');
+        await product.waitForExist();
+
+        expect(product).toExist()
 
     })
 })

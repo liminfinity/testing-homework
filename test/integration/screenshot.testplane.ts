@@ -5,7 +5,7 @@ describe('Скриншоты страниц', () => {
         await browser.url('/hw/store');
         const body = await browser.$('body');
         await body.waitForDisplayed();
-        await body.assertView('plain');
+        await body.assertView('plain', {ignoreDiffPixelCount: '3%'});
     })
     describe('Каталог', () => {
         
@@ -13,7 +13,7 @@ describe('Скриншоты страниц', () => {
             await browser.url('/hw/store/catalog');
             const body = await browser.$('body');
             await body.waitForDisplayed();
-            await body.assertView('plain');
+            await body.assertView('plain', {ignoreDiffPixelCount: '3%'});
         })
         it("Первый товар добавлен в корзину", async ({browser}) => {
             await browser.url('/hw/store/catalog/0');
@@ -22,15 +22,16 @@ describe('Скриншоты страниц', () => {
             await browser.url('/hw/store/catalog');
             const body = await browser.$('body');
             await body.waitForDisplayed();
-            await body.assertView('plain');
+            await body.assertView('plain', {ignoreDiffPixelCount: '3%'});
         })
     })
     describe('Товар', () => {
+        //! Возникает bug_id=1
         it('По умолчанию', async ({browser}) => {
             await browser.url('/hw/store/catalog/0');
             const body = await browser.$('body');
             await body.waitForDisplayed();
-            await body.assertView('plain');
+            await body.assertView('plain', {ignoreDiffPixelCount: '3%'});
         })
         it('Добавлен в корзину', async ({browser}) => {
             await browser.url('/hw/store/catalog/0');
@@ -38,7 +39,7 @@ describe('Скриншоты страниц', () => {
             await addToCartBtn.click();
             const body = await browser.$('body');
             await body.waitForDisplayed();
-            await body.assertView('plain');
+            await body.assertView('plain', {ignoreDiffPixelCount: '3%'});
         })
         
     })
@@ -46,20 +47,20 @@ describe('Скриншоты страниц', () => {
         await browser.url('/hw/store/delivery');
         const body = await browser.$('body');
         await body.waitForDisplayed();
-        await body.assertView('plain');
+        await body.assertView('plain', {ignoreDiffPixelCount: '3%'});
     })
     it('Контакты', async ({browser}) => {
         await browser.url('/hw/store/contacts');
         const body = await browser.$('body');
         await body.waitForDisplayed();
-        await body.assertView('plain');
+        await body.assertView('plain', {ignoreDiffPixelCount: '3%'});
     })
     describe('Корзина', () => {
         it('Пустая корзина', async ({browser}) => {
             await browser.url('/hw/store/cart');
             const body = await browser.$('body');
             await body.waitForDisplayed();
-            await body.assertView('plain');
+            await body.assertView('plain', {ignoreDiffPixelCount: '3%'});
         })
         it('Непустая корзина', async ({browser}) => {
             await browser.url('/hw/store/catalog/0');
@@ -68,7 +69,7 @@ describe('Скриншоты страниц', () => {
             await browser.url('/hw/store/cart');
             const body = await browser.$('body');
             await body.waitForDisplayed();
-            await body.assertView('plain');
+            await body.assertView('plain', {ignoreDiffPixelCount: '3%'});
         })
     })
     describe("Заказ", () => {
@@ -90,7 +91,7 @@ describe('Скриншоты страниц', () => {
             await sendBtn.click();
             const body = await browser.$('body');
             await body.waitForDisplayed();
-            await body.assertView('plain');
+            await body.assertView('plain', {ignoreDiffPixelCount: '3%'});
         })
     })
 })

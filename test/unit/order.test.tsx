@@ -5,7 +5,7 @@ import { CartApi } from "../../src/client/api";
 import { CartState, CheckoutResponse } from "../../src/common/types";
 import userEvent from "@testing-library/user-event";
 import { waitFor, screen, getByText } from "@testing-library/react";
-import { faker } from "@faker-js/faker";
+import { Faker, ru } from "@faker-js/faker";
 import axios from "axios";
 
 const cart: CartState = {
@@ -20,6 +20,9 @@ const checkoutResponse: {data: CheckoutResponse} = {
     }
 } 
 
+const faker = new Faker({
+    locale: [ru]
+})
 
 describe('Форма оформления заказа', () => {
 
@@ -44,14 +47,13 @@ describe('Форма оформления заказа', () => {
         await userEvent.type(inputName, faker.person.fullName());
         
         const inputPhone = await waitFor(() => container.querySelector('#f-phone'));
-        await userEvent.type(inputPhone, faker.phone.number());
+        await userEvent.type(inputPhone, '89133241212');
 
         const inputAddress = await waitFor(() => container.querySelector('#f-address'));
         await userEvent.type(inputAddress, faker.location.streetAddress());
 
         const submitBtn = await waitFor(() => container.querySelector('.Form-Submit'));
         await userEvent.click(submitBtn);
-
         waitFor(async () => {
             expect(container.querySelector('.Cart-SuccessMessage')).toBeInTheDocument();
             expect(await findByText('catalog')).toHaveAttribute('href', '/catalog');
